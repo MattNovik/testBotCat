@@ -1,0 +1,22 @@
+.botcat-avatar {
+    display: flex;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #353DF0;
+    color: #B3DA26;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+
+    position: relative;
+    z-index: 1;
+
+    &--bot {
+        background: #fff url('static/img/cat-avatar.svg') no-repeat 50% 50%;
+    }
+}

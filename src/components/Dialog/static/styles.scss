@@ -1,0 +1,14 @@
+.botcat-dialog {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    &--reverse {
+        flex-direction: row-reverse;
+    }
+
+    & strong,
+    & b {
+        font-weight: 900;
+    }
+}

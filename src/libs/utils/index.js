@@ -1,0 +1,11 @@
+export { default as list2Options } from './list2Options';
+export { default as decOfNum } from './decOfNum';
+export { default as formatText } from './formatText';
+export { default as isObject } from './isObject';
+export { default as setCookies } from './setCookies';
+export { default as getUrlParams } from './getUrlParams';
+export { default as loaderStyles } from './loaderStyles';
+export { default as sortArrayOfObjects, sortFn } from './sortArrayOfObjects';
+export { default as shadeBlend } from './shadeBlend';
+export { default as validateEmail } from './validateEmail';
+export { default as getTypeFile } from './getTypeFile';

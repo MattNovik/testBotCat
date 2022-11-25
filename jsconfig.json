@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "jsx": "react",
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./",
+        "experimentalDecorators": true,
+
+        "paths": {
+            "api/*": ["src/api/*"],
+            "components/*": ["src/components/*"],
+            "constants/*": ["src/constants/*"],
+            "containers/*": ["src/containers/*"],
+            "libs/*": ["src/libs/*"],
+            "redux/*": ["src/redux/*"],
+            "static/*": ["src/static/*"],
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "build",
+        "dist"
+    ]
+}

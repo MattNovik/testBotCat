@@ -1,0 +1,150 @@
+.botcat-file {
+    &-upload {
+        position: relative;
+
+        display: block;
+
+        padding: 16px 21px 14px;
+
+        font-size: 14px;
+        line-height: 100%;
+
+        cursor: pointer;
+
+        border-radius: 16px;
+        background: #fff;
+
+        & input[type='file'] {
+            display: none;
+        }
+
+        &:after {
+            content: '';
+
+            position: absolute;
+            top: 14px;
+            right: 21px;
+
+            display: block;
+
+            width: 10px;
+            height: 19px;
+
+            background: url('static/img/file.svg') no-repeat 50% 50%;
+        }
+    }
+
+    &__item {
+        position: relative;
+
+        display: flex;
+        overflow: hidden;
+        align-items: center;
+
+        margin-bottom: 10px;
+
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 122%;
+
+        text-overflow: ellipsis;
+
+        color: #000;
+
+        &:before {
+            content: '';
+
+            display: block;
+
+            width: 40px;
+            min-width: 40px;
+            height: 46px;
+            margin-right: 10px;
+
+            background: url('static/img/doc.svg') no-repeat 50% 50%;
+            background-size: contain;
+        }
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        &--jpg {
+            &:before {
+                background-image: url('static/img/jpg.svg');
+            }
+        }
+
+        &--png {
+            &:before {
+                background-image: url('static/img/png.svg');
+            }
+        }
+
+        &--pdf {
+            &:before {
+                background-image: url('static/img/pdf.svg');
+            }
+        }
+
+        &--doc {
+            &:before {
+                background-image: url('static/img/doc.svg');
+            }
+        }
+
+        &--docx {
+            &:before {
+                background-image: url('static/img/docx.svg');
+            }
+        }
+
+        &--txt {
+            &:before {
+                background-image: url('static/img/txt.svg');
+            }
+        }
+
+        &--xls {
+            &:before {
+                background-image: url('static/img/xls.svg');
+            }
+        }
+
+        &--xlsx {
+            &:before {
+                background-image: url('static/img/xlsx.svg');
+            }
+        }
+
+        &--ppt {
+            &:before {
+                background-image: url('static/img/ppt.svg');
+            }
+        }
+
+        &--zip {
+            &:before {
+                background-image: url('static/img/zip.svg');
+            }
+        }
+
+        &--rar {
+            &:before {
+                background-image: url('static/img/rar.svg');
+            }
+        }
+
+        &--psd {
+            &:before {
+                background-image: url('static/img/psd.svg');
+            }
+        }
+
+        &--cdw {
+            &:before {
+                background-image: url('static/img/cdw.svg');
+            }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+.bot-cat__field {
+    width: 100%;
+    padding: 13px 21px;
+    box-sizing: border-box;
+
+    font-size: 14px;
+    line-height: 1;
+
+    color: #000;
+    border: 1px solid #fff;
+    border-radius: 16px;
+    outline: none;
+    background: #fff;
+    box-shadow: none;
+
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+
+    &:focus,
+    &:active {
+        outline: none;
+    }
+
+    &--error {
+        border-color: #ff785a;
+    }
+}

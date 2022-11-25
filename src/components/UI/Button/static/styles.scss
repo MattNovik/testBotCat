@@ -1,0 +1,46 @@
+.botcat-button {
+    width: 100%;
+    min-width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    font-size: 13px;
+    line-height: 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding-left: 7px;
+    padding-right: 7px;
+    background-color: #B3DA26;
+    color: #353DF0;
+
+    &--primary {
+        background-color: #353DF0;
+        color: #fff;
+    }
+
+    &--light {
+        background-color: #fff;
+        color: #353DF0;
+        border-color: #353DF0;
+    }
+
+    &:focus,
+    &:active {
+        outline: none;
+        box-shadow: none;
+    }
+
+    &--onlyicons {
+        padding-left: 0px;
+        padding-right: 0px;
+        width: 44px;
+        border-radius: 50%;
+    }
+
+    &--disabled {
+        background-color: #C4C4C4;
+    }
+}
