@@ -10,12 +10,9 @@
   "scripts": {
     "clear": "rimraf build",
     "prestart": "npm run clear",
-    "start": "nodemon --watch server.js server.js",
+    "build": "nodemon --watch server.js server.js",
     "start:dev": "cross-env API_VER=development npm start",
-    "start:prod": "cross-env API_VER=production npm start",
-    "build": "npm run build:dev && build:prod",
-    "build:dev": "cross-env ASSET_PATH=https://new-stuservis.loc/wp-content/themes/stuservis/botcat/ NODE_ENV=development webpack --config ./webpack.config.js -p",
-    "build:prod": "cross-env ASSET_PATH=https://stud-servis.ru/wp-content/themes/stuservis/botcat/ NODE_ENV=production webpack --config ./webpack.config.js -p"
+    "start:prod": "cross-env API_VER=production npm start"
   },
   "dependencies": {
     "@types/react-helmet": "^6.1.0",
@@ -24,6 +21,7 @@
     "dayz": "^2.9.0",
     "imask": "^6.0.7",
     "is-browser": "^2.1.0",
+    "nodemon": "^2.0.20",
     "popper.js": "^1.16.1",
     "react": "^17.0.1",
     "react-custom-scrollbars-2": "^4.2.4",
