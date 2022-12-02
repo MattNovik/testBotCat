@@ -114,7 +114,7 @@ class AppContainer extends PureComponent<IProps, IState> {
 
         vkBridge.send('VKWebAppInit');
 
-        vkBridge
+        const checkVKData = vkBridge
             .send('VKWebAppGetUserInfo')
             .then(data => {
                 if (data.first_name) {
@@ -126,11 +126,15 @@ class AppContainer extends PureComponent<IProps, IState> {
                     this.handleNextStep(this.state.step + 1);
                 }
                 console.log(data);
+                return data;
             })
             .catch(error => {
                 console.log(error);
+                return false;
             });
-        this.addMessage(scenario[this.state.step], false);
+        if (checkVKData.id === undefined) {
+            this.addMessage(scenario[this.state.step], false);
+        }
     }
 
     getFiles = (files: any) => {
