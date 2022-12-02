@@ -2,6 +2,7 @@ import React, { Fragment, PureComponent } from 'react';
 import { RouteConfig } from 'react-router-config';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
+import vkBridge from '@vkontakte/vk-bridge';
 
 import ym from 'react-yandex-metrika';
 
@@ -11,8 +12,10 @@ import { API_AUTH } from 'constants/api';
 
 import { IRootState } from 'redux/modules/reducers';
 import {
-    getWorkTypesList, getWorkTypesListStatus,
-    getCoursesList, getCoursesListStatus,
+    getWorkTypesList,
+    getWorkTypesListStatus,
+    getCoursesList,
+    getCoursesListStatus,
     actionFetchWorkTypesList,
     actionFetchCoursesList
 } from 'redux/modules/User';
@@ -26,7 +29,12 @@ import { FormatText, PopUp } from 'components/UI';
 
 import { getTypeFile } from 'libs/utils';
 
-import { createOrderFromBot, editOrderFromBot, ICreateOrderFromBotData, IEditOrderFromBotData } from 'api/User';
+import {
+    createOrderFromBot,
+    editOrderFromBot,
+    ICreateOrderFromBotData,
+    IEditOrderFromBotData
+} from 'api/User';
 
 import './static/styles.scss';
 
@@ -48,11 +56,11 @@ interface IDispatchProps {
 
 interface IState {
     items: any;
-    step: number,
-    prints: boolean,
-    dialogs: any,
-    errors: any,
-    isOpen: boolean
+    step: number;
+    prints: boolean;
+    dialogs: any;
+    errors: any;
+    isOpen: boolean;
 }
 
 interface IProps extends IStateProps, IDispatchProps, RouteConfig {}
@@ -73,7 +81,7 @@ const mapDispatchToProps = (dispatch: Dispatch): IDispatchProps =>
         dispatch
     );
 
-const DEFAULT_STEP = 0;
+const DEFAULT_STEP = 0; // was 0
 
 class AppContainer extends PureComponent<IProps, IState> {
     constructor(props: IProps) {
@@ -103,8 +111,25 @@ class AppContainer extends PureComponent<IProps, IState> {
         this.addMessage(scenario[this.state.step], false);
 
         document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+        // VK integ
+
+        vkBridge.send('VKWebAppInit');
+
+        vkBridge
+            .send('VKWebAppGetUserInfo')
+            .then(data => {
+                if (data.first_name) {
+                    this.state.items.name = data.first_name;
+                    this.handleNextStep(this.state.step + 1);
+                }
+            })
+            .then(data => console.log(data))
+            .catch(error => {
+                console.log(error);
+            });
     }
-    
+
     getFiles = (files: any) => {
         // const result: any = !!this.state.items.files ? [...this.state.items.files] : [];
         const result: any = [];
@@ -113,13 +138,13 @@ class AppContainer extends PureComponent<IProps, IState> {
         Array.from(files).map((file: any) => {
             const type: string = getTypeFile(file);
 
-            if(file.size === 3e+7) {
+            if (file.size === 3e7) {
                 errors.push(`Размер файла "${file.name}" превышает 30Mb.`);
 
                 return;
             }
-            
-            if(type === '') {
+
+            if (type === '') {
                 errors.push(`Недопустимый тип файла "${file.name}".`);
 
                 return;
@@ -134,7 +159,7 @@ class AppContainer extends PureComponent<IProps, IState> {
             result.push(itemData);
         });
 
-        if(!!errors.length) {
+        if (!!errors.length) {
             this.setState({
                 errors: {
                     ...this.state.errors,
@@ -145,35 +170,32 @@ class AppContainer extends PureComponent<IProps, IState> {
         }
 
         return result;
-    }
+    };
 
     handleChange = (name: string, value: any) => {
         let go = true;
         let Type: any = '';
         let Course: any = '';
-        
-        const {
-            items,
-            step
-        } = this.state;
+
+        const { items, step } = this.state;
 
         const work_types = !!this.props.workTypesList ? this.props.workTypesList.list : [];
         const work_courses = !!this.props.coursesList ? this.props.coursesList.list : [];
 
         let message: IScenarioMessage | any = {};
 
-        if(name === 'type') {
+        if (name === 'type') {
             Type = !!work_types && work_types.find(item => item.id === value);
             value = !!Type ? Type?.name : '';
         }
 
-        if(name === 'subject') {
+        if (name === 'subject') {
             console.log('subject value', value);
             Course = !!work_courses && work_courses.find(item => item.id === value);
             value = !!Course ? Course?.name : value;
         }
 
-        if(name !== 'files') {
+        if (name !== 'files') {
             this.setState({
                 items: {
                     ...items,
@@ -182,10 +204,10 @@ class AppContainer extends PureComponent<IProps, IState> {
             });
         }
 
-        switch(name) {
+        switch (name) {
             case 'name':
-                if(!value) return;
-                
+                if (!value) return;
+
                 message = {
                     id: step + 10,
                     type: 'message',
@@ -195,8 +217,8 @@ class AppContainer extends PureComponent<IProps, IState> {
 
                 break;
             case 'type':
-                if(!value) return;
-                
+                if (!value) return;
+
                 message = {
                     id: step + 10,
                     type: 'message',
@@ -206,8 +228,8 @@ class AppContainer extends PureComponent<IProps, IState> {
 
                 break;
             case 'subject':
-                if(!value) return;
-                
+                if (!value) return;
+
                 message = {
                     id: step + 10,
                     type: 'message',
@@ -219,8 +241,8 @@ class AppContainer extends PureComponent<IProps, IState> {
             case 'files':
                 const files = value !== 'Нет' ? this.getFiles(value) : null;
 
-                if(value === 'Нет' && files === null) {
-                    if(!this.state.items.files) {
+                if (value === 'Нет' && files === null) {
+                    if (!this.state.items.files) {
                         message = {
                             id: step + 11,
                             type: 'message',
@@ -238,25 +260,39 @@ class AppContainer extends PureComponent<IProps, IState> {
 
                     go = true;
                 } else {
-                    if(!files.length) {
+                    if (!files.length) {
                         go = false;
-    
+
                         return;
                     }
 
-                    if(!!files.length) {
+                    if (!!files.length) {
                         message = {
                             id: step + 12,
                             type: 'message',
-                            message: (<Fragment>{files.map((file: any, index: number) => <div key={index} className={`botcat-file__item botcat-file__item--${file.type}`}>{file.name}</div>)}</Fragment>),
+                            message: (
+                                <Fragment>
+                                    {files.map((file: any, index: number) => (
+                                        <div
+                                            key={index}
+                                            className={`botcat-file__item botcat-file__item--${file.type}`}
+                                        >
+                                            {file.name}
+                                        </div>
+                                    ))}
+                                </Fragment>
+                            ),
                             reverse: true
                         };
 
                         this.setState({
                             items: {
-                                ...items,   
+                                ...items,
                                 files: [].concat(files, items.files),
-                                filesData: [].concat(value, !!items.filesData ? items.filesData : [])
+                                filesData: [].concat(
+                                    value,
+                                    !!items.filesData ? items.filesData : []
+                                )
                             }
                         });
 
@@ -266,12 +302,12 @@ class AppContainer extends PureComponent<IProps, IState> {
 
                 break;
             case 'phone':
-                if(!value) return;
+                if (!value) return;
 
                 message = {
                     id: step + 10,
                     type: 'message',
-                    message: (<FormatText format='phone' value={value} />),
+                    message: <FormatText format='phone' value={value} />,
                     reverse: true
                 };
 
@@ -283,26 +319,29 @@ class AppContainer extends PureComponent<IProps, IState> {
                     message: value,
                     reverse: true
                 };
-                
+
                 break;
         }
 
         this.addMessage(message, go);
-    }
+    };
 
     handleNextStep = (step: number) => {
-        if(step <= this.scenarioLength) {
-            this.setState({
-                step: step,
-                prints: false
-            }, () => {
-                this.addMessage(scenario[step], false);
-            });
+        if (step <= this.scenarioLength) {
+            this.setState(
+                {
+                    step: step,
+                    prints: false
+                },
+                () => {
+                    this.addMessage(scenario[step], false);
+                }
+            );
         }
 
-        if(step === 7) this.createOrderFromBot();
-        if(step === 8 && !!this.state.items.user_id) this.editOrderFromBot();
-    }
+        if (step === 7) this.createOrderFromBot();
+        if (step === 8 && !!this.state.items.user_id) this.editOrderFromBot();
+    };
 
     convertFilesToOrder = () => {
         const files: any = this.state.items.files;
@@ -311,7 +350,7 @@ class AppContainer extends PureComponent<IProps, IState> {
         files.map((file: any) => result.push(file.files));
 
         return result;
-    }
+    };
 
     createOrderFromBot = () => {
         //ym(52970623,'reachGoal','ORDER_BOTCAT')
@@ -328,23 +367,26 @@ class AppContainer extends PureComponent<IProps, IState> {
 
         createOrderFromBot(data, files)
             .then(response => {
-                if(!!response.data) {
-                    this.setState({
-                        items: {
-                            ...this.state.items,
-                            order_id: response.data.order_id,
-                            user_id: response.data.user_id,
-                            hash: response.data.hash || '',
-                            authtoken: response.data.authtoken || '',
-                            estimate_info: response.data.estimate_info || {}
-                        }
-                    }, () => ym('reachGoal', 'ORDER_BOTCAT'));
+                if (!!response.data) {
+                    this.setState(
+                        {
+                            items: {
+                                ...this.state.items,
+                                order_id: response.data.order_id,
+                                user_id: response.data.user_id,
+                                hash: response.data.hash || '',
+                                authtoken: response.data.authtoken || '',
+                                estimate_info: response.data.estimate_info || {}
+                            }
+                        },
+                        () => ym('reachGoal', 'ORDER_BOTCAT')
+                    );
                 }
             })
             .catch(errors => {
                 console.log('errors', errors);
             });
-    }
+    };
 
     editOrderFromBot = () => {
         const data: IEditOrderFromBotData = {
@@ -352,8 +394,8 @@ class AppContainer extends PureComponent<IProps, IState> {
             phone: this.state.items.phone
         };
 
-        if(!!this.state.items.hash) data.hash = this.state.items.hash;
-        if(!!this.state.items.authtoken) data.authtoken = this.state.items.authtoken;
+        if (!!this.state.items.hash) data.hash = this.state.items.hash;
+        if (!!this.state.items.authtoken) data.authtoken = this.state.items.authtoken;
 
         editOrderFromBot(data)
             .then(response => {
@@ -362,103 +404,118 @@ class AppContainer extends PureComponent<IProps, IState> {
             .catch(errors => {
                 console.log('errors', errors);
             });
-    }
+    };
 
     addMessage = (message: IScenarioMessage, next: boolean) => {
         const newDialogs: IScenarioMessage[] | any = [...this.state.dialogs];
 
-        if(this.state.step === 1 && this.state.items.name !== 'anonymous' && this.state.dialogs.length <= 2) {
+        if (
+            this.state.step === 1 &&
+            this.state.items.name !== 'anonymous' &&
+            this.state.dialogs.length <= 2
+        ) {
             const oldMessage = message.message;
 
             message.message = `${texts.info.step1} ${this.state.items.name}! ${oldMessage}`;
         }
 
-        if(message.message !== 'Next') {
-            if(this.state.step === 8 && !!this.state.items.estimate_info && !!Object.keys(this.state.items.estimate_info).length) {
-                const estimate_info = {...this.state.items.estimate_info};
+        if (message.message !== 'Next') {
+            if (
+                this.state.step === 8 &&
+                !!this.state.items.estimate_info &&
+                !!Object.keys(this.state.items.estimate_info).length
+            ) {
+                const estimate_info = { ...this.state.items.estimate_info };
 
                 newDialogs.push({
-                        id: 8.5,
-                        type: 'system',
-                        message: <div className='botcat-tizer-system__order'>
-                                <strong>{this.state.items.type}</strong> на тему: {this.state.items.theme}. <strong>Предмет:</strong> {this.state.items.subject}.
-                                <div className='botcat-tizer-system__order__price'>Цена: {estimate_info.total_sale || estimate_info.total} ₽</div>
-                                {estimate_info.total_sale && <div className='botcat-tizer-system__order__oldprice'>Цена: {estimate_info.total} ₽</div>}
-                                {estimate_info.sale_available_to && <div className='botcat-tizer-system__order__description'>Цена со скидкой {estimate_info.sale_percent}% действительна до {estimate_info.sale_available_to}</div>}
-                            </div>,
-                        render: {
-                            name: '',
-                            placeholder: '',
-                            type: '',
-                            required: true
-                        }
-                });
-
-                const getPrepayTotal = () => {
-                    const total = estimate_info.total_sale || estimate_info.total;
-
-                    return Math.ceil((total / 100) * estimate_info.prepay);
-                }
-
-                newDialogs.push({
-                    id: 9,
-                    type: 'message',
-                    message: !!estimate_info.prepay ? `Ваш заказ успешно создан. Внесите предоплату всего ${estimate_info.prepay}% - ${getPrepayTotal()} руб., и мы сразу же приступим к работе.` : 'Ваш заказ успешно создан. На почту Вам уже пришел логин и пароль от личного кабинета. ',
+                    id: 8.5,
+                    type: 'system',
+                    message: (
+                        <div className='botcat-tizer-system__order'>
+                            <strong>{this.state.items.type}</strong> на тему:{' '}
+                            {this.state.items.theme}. <strong>Предмет:</strong>{' '}
+                            {this.state.items.subject}.
+                            <div className='botcat-tizer-system__order__price'>
+                                Цена: {estimate_info.total_sale || estimate_info.total} ₽
+                            </div>
+                            {estimate_info.total_sale && (
+                                <div className='botcat-tizer-system__order__oldprice'>
+                                    Цена: {estimate_info.total} ₽
+                                </div>
+                            )}
+                            {estimate_info.sale_available_to && (
+                                <div className='botcat-tizer-system__order__description'>
+                                    Цена со скидкой {estimate_info.sale_percent}% действительна до{' '}
+                                    {estimate_info.sale_available_to}
+                                </div>
+                            )}
+                        </div>
+                    ),
                     render: {
                         name: '',
                         placeholder: '',
                         type: '',
                         required: true
                     }
-            });
-                
+                });
+
+                const getPrepayTotal = () => {
+                    const total = estimate_info.total_sale || estimate_info.total;
+
+                    return Math.ceil((total / 100) * estimate_info.prepay);
+                };
+
+                newDialogs.push({
+                    id: 9,
+                    type: 'message',
+                    message: !!estimate_info.prepay
+                        ? `Ваш заказ успешно создан. Внесите предоплату всего ${
+                              estimate_info.prepay
+                          }% - ${getPrepayTotal()} руб., и мы сразу же приступим к работе.`
+                        : 'Ваш заказ успешно создан. На почту Вам уже пришел логин и пароль от личного кабинета. ',
+                    render: {
+                        name: '',
+                        placeholder: '',
+                        type: '',
+                        required: true
+                    }
+                });
             } else {
                 newDialogs.push(message);
             }
         }
 
-        this.setState({
-            dialogs: newDialogs,
-            prints: !!next
-        }, () => {
-            if(!!next) {
-                setTimeout(() => {
-                    this.handleNextStep(this.state.step + 1);
-                }, 300);
+        this.setState(
+            {
+                dialogs: newDialogs,
+                prints: !!next
+            },
+            () => {
+                if (!!next) {
+                    setTimeout(() => {
+                        this.handleNextStep(this.state.step + 1);
+                    }, 300);
+                }
             }
-        });
+        );
     };
 
     handleOpenOrder = () => {
         window.location.href = `${API_AUTH}auth/token=${this.state.items.authtoken}/email=${this.state.items.email}/hash=${this.state.items.hash}/order_id_info=${this.state.items.order_id}`;
-    }
+    };
 
     handleOpenChat = () => {
         window.location.href = `${API_AUTH}auth/token=${this.state.items.authtoken}/email=${this.state.items.email}/hash=${this.state.items.hash}/order_id_chat=${this.state.items.order_id}`;
-    }
+    };
 
     render() {
-        const {
-            items,
-            step,
-            dialogs,
-            prints
-        } = this.state;
+        const { items, step, dialogs, prints } = this.state;
 
         return (
             <div className='botcat-wrapper'>
-                <DialogsPanel
-                    dialogs={dialogs}
-                    step={step}
-                    prints={prints}
-                    items={items}
-                />
+                <DialogsPanel dialogs={dialogs} step={step} prints={prints} items={items} />
                 {step !== -1 && step < this.scenarioLength && (
-                    <DialogsInput
-                        step={step}
-                        prints={prints}
-                        onChange={this.handleChange}
-                    />
+                    <DialogsInput step={step} prints={prints} onChange={this.handleChange} />
                 )}
                 {step === 8 && (
                     <div className='botcat-input-panel'>
@@ -467,7 +524,9 @@ class AppContainer extends PureComponent<IProps, IState> {
                                 <Button onClick={this.handleOpenOrder}>открыть заказ</Button>
                             </div>
                             <div className='botcat-customform-name__col'>
-                                <Button kind='light' onClick={this.handleOpenChat}>задать вопрос</Button>
+                                <Button kind='light' onClick={this.handleOpenChat}>
+                                    задать вопрос
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -477,7 +536,12 @@ class AppContainer extends PureComponent<IProps, IState> {
                     onClose={() => this.setState({ isOpen: false })}
                     className='botcat-popup--error'
                 >
-                    <div>{!!this.state.errors.files && this.state.errors.files.map((text: string, key: number) => <p key={key}>{text}</p>)}</div>
+                    <div>
+                        {!!this.state.errors.files &&
+                            this.state.errors.files.map((text: string, key: number) => (
+                                <p key={key}>{text}</p>
+                            ))}
+                    </div>
                 </PopUp>
             </div>
         );

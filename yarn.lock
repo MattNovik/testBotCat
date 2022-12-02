@@ -1352,6 +1352,11 @@
     "@typescript-eslint/types" "4.28.0"
     "eslint-visitor-keys" "^2.0.0"
 
+"@vkontakte/vk-bridge@^2.7.2":
+  "integrity" "sha512-m/cgWEbd4Xi49xyS0tn14h3b8fLTG3Vw/wNo72k5sw5ILf8SFzB1CAyruc7kKBE6Xc8ibyIydVx1YkHwW1O0PA=="
+  "resolved" "https://registry.npmjs.org/@vkontakte/vk-bridge/-/vk-bridge-2.7.2.tgz"
+  "version" "2.7.2"
+
 "@webassemblyjs/ast@1.9.0":
   "integrity" "sha512-C6wW5L+b7ogSDVqymbkkvuW9kruN//YisMED04xzeBBqjHa2FYnmvOlS6Xj68xWQRgWvI9cIglsjFowH/RJyEA=="
   "resolved" "https://registry.npmjs.org/@webassemblyjs/ast/-/ast-1.9.0.tgz"
