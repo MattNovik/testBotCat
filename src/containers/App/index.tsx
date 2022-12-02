@@ -112,9 +112,7 @@ class AppContainer extends PureComponent<IProps, IState> {
 
         // VK integ
 
-        const check = vkBridge.send('VKWebAppInit');
-
-        console.log(check);
+        vkBridge.send('VKWebAppInit');
 
         const checkVKData = vkBridge
             .send('VKWebAppGetUserInfo')
@@ -126,15 +124,23 @@ class AppContainer extends PureComponent<IProps, IState> {
                         this.state.items.name = data.first_name;
                     }
                     this.handleNextStep(this.state.step + 1);
+                    return true;
                 }
-                console.log(data);
-                return data;
+                return false;
             })
             .catch(error => {
                 console.log(error);
                 return false;
             });
-        console.log(checkVKData);
+        const checkReal = async () => {
+            const start = await checkVKData;
+            console.log(start);
+            if (!start) {
+                this.addMessage(scenario[this.state.step], false);
+            }
+        };
+
+        checkReal();
     }
 
     getFiles = (files: any) => {
