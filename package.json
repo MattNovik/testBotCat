@@ -13,7 +13,7 @@
     "start": "nodemon --watch server.js server.js",
     "start:dev": "cross-env API_VER=development npm start",
     "start:prod": "cross-env API_VER=production npm start",
-    "build": "nodemon --watch server.js server.js",
+    "build": "nodemon --watch server.js server.js"
   },
   "dependencies": {
     "@types/react-helmet": "^6.1.0",
