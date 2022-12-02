@@ -108,8 +108,6 @@ class AppContainer extends PureComponent<IProps, IState> {
         actionFetchWorkTypesList();
         actionFetchCoursesList();
 
-        this.addMessage(scenario[this.state.step], false);
-
         document.documentElement.style.setProperty('--vh', `${vh}px`);
 
         // VK integ
@@ -120,7 +118,11 @@ class AppContainer extends PureComponent<IProps, IState> {
             .send('VKWebAppGetUserInfo')
             .then(data => {
                 if (data.first_name) {
-                    this.state.items.name = data.first_name;
+                    if (data.last_name) {
+                        this.state.items.name = data.first_name + ' ' + data.last_name;
+                    } else {
+                        this.state.items.name = data.first_name;
+                    }
                     this.handleNextStep(this.state.step + 1);
                 }
             })
@@ -128,6 +130,8 @@ class AppContainer extends PureComponent<IProps, IState> {
             .catch(error => {
                 console.log(error);
             });
+
+        this.addMessage(scenario[this.state.step], false);
     }
 
     getFiles = (files: any) => {
