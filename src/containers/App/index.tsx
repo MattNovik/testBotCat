@@ -111,10 +111,12 @@ class AppContainer extends PureComponent<IProps, IState> {
         document.documentElement.style.setProperty('--vh', `${vh}px`);
 
         // VK integ
+        const location = document.location.search;
+        const createURL = new URLSearchParams(location);
 
-        console.log(new URLSearchParams(document.location.search).get('isVk'));
+        console.log(createURL.get('isVk'));
 
-        const check = vkBridge
+        vkBridge
             .send('VKWebAppInit')
             .then(data => {
                 if (data.result) {
@@ -129,7 +131,6 @@ class AppContainer extends PureComponent<IProps, IState> {
                 // Ошибка
                 console.log(error);
             });
-        console.log(check);
 
         vkBridge
             .send('VKWebAppGetUserInfo')
