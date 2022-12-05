@@ -396,6 +396,14 @@ class AppContainer extends PureComponent<IProps, IState> {
     };
 
     handleNextStep = (step: number) => {
+        if (step === 6 && this.state.vkEmail) {
+            console.log('email');
+        }
+
+        if (step === 7 && this.state.vkPhone && !!this.state.items.user_id) {
+            console.log('phone');
+        }
+
         if (step <= this.scenarioLength) {
             this.setState(
                 {
@@ -408,8 +416,8 @@ class AppContainer extends PureComponent<IProps, IState> {
             );
         }
 
-        if (step === 7) this.createOrderFromBot();
-        if (step === 8 && !!this.state.items.user_id) this.editOrderFromBot();
+        //if (step === 7) this.createOrderFromBot();
+        //if (step === 8 && !!this.state.items.user_id) this.editOrderFromBot();
     };
 
     convertFilesToOrder = () => {
