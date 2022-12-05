@@ -112,7 +112,7 @@ class AppContainer extends PureComponent<IProps, IState> {
 
         // VK integ
 
-        vkBridge
+        const connect = vkBridge
             .send('VKWebAppInit')
             .then(data => {
                 if (data.result) {
@@ -146,9 +146,13 @@ class AppContainer extends PureComponent<IProps, IState> {
                 console.log(error);
                 return false;
             });
+
         const checkReal = async () => {
+            const init = await connect;
             const start = await checkVKData;
+            console.log(init);
             console.log(start);
+            console.log(checkVKData);
             if (start === false) {
                 this.addMessage(scenario[this.state.step], false);
             }
