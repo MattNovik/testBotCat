@@ -152,16 +152,13 @@ class AppContainer extends PureComponent<IProps, IState> {
                             this.setState({ vkid: data.id });
                         }
                         this.handleNextStep(this.state.step + 1);
-                        return true;
+                    } else {
+                        this.addMessage(scenario[this.state.step], false);
                     }
-
-                    this.addMessage(scenario[this.state.step], false);
-                    return false;
                 })
                 .catch(error => {
                     this.addMessage(scenario[this.state.step], false);
                     console.log(error);
-                    return false;
                 });
             /* 
             vkBridge
