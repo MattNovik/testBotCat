@@ -147,6 +147,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                         this.handleNextStep(this.state.step + 1);
                         return true;
                     }
+                    this.addMessage(scenario[this.state.step], false);
                     return false;
                 })
                 .catch(error => {
