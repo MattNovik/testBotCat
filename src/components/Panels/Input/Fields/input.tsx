@@ -22,6 +22,7 @@ const InputField: FC<IPropsCF> = memo(
 
         const handleSetName = (val: string) => {
             if (!required && !val) val = 'Нет';
+            console.log(!!val && onSetValue);
             if (!!val && onSetValue) {
                 if (name === 'email' && !validateEmail(val)) {
                     setError('Введите правильно email!');
@@ -31,7 +32,6 @@ const InputField: FC<IPropsCF> = memo(
                     setValue('');
                 }
             }
-            console.log(val);
         };
 
         const handleChange = (_name: string, value: string) => {
