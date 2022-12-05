@@ -123,6 +123,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                     // Ошибка
                 }
             })
+            .then(q => console.log(q))
             .catch(error => {
                 // Ошибка
                 console.log(error);
@@ -142,6 +143,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                 }
                 return false;
             })
+            .then(q => console.log(q))
             .catch(error => {
                 console.log(error);
                 return false;
@@ -152,8 +154,6 @@ class AppContainer extends PureComponent<IProps, IState> {
             const start = await checkVKData;
             console.log(init);
             console.log(start);
-            console.log(vkBridge
-                .send('VKWebAppInit'))
             console.log(checkVKData);
             if (start !== true) {
                 this.addMessage(scenario[this.state.step], false);
