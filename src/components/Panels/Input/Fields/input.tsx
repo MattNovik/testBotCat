@@ -21,10 +21,7 @@ const InputField: FC<IPropsCF> = memo(
         const [isOpen, setIsOpen] = useState(false);
 
         const handleSetName = (val: string) => {
-            if (!required && !val) {
-                val = 'Нет';
-                setValue(val);
-            }
+            if (!required && !val) val = 'Нет';
             if (!!val && onSetValue) {
                 if (name === 'email' && !validateEmail(val)) {
                     setError('Введите правильно email!');
@@ -62,7 +59,7 @@ const InputField: FC<IPropsCF> = memo(
                             onlyIcons
                             onClick={() => handleSetName(value)}
                             disabled={disabled || (required ? !!error || !value : false)}
-                            type='submit'
+                            type='button'
                         >
                             <Icons.Send size={30} fill='#FFF' />
                         </Button>
