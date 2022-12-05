@@ -115,43 +115,44 @@ class AppContainer extends PureComponent<IProps, IState> {
         const createURL = new URLSearchParams(location);
 
         console.log(createURL.get('isVk'));
-
-        vkBridge
-            .send('VKWebAppInit')
-            .then(data => {
-                if (data.result) {
-                    console.log(data.result);
-                    // Приложение инициализировано
-                } else {
-                    console.log('error');
-                    // Ошибка
-                }
-            })
-            .catch(error => {
-                // Ошибка
-                console.log(error);
-            });
-
-        vkBridge
-            .send('VKWebAppGetUserInfo')
-            .then(data => {
-                if (data.first_name) {
-                    if (data.last_name) {
-                        this.state.items.name = data.first_name + ' ' + data.last_name;
+        if (createURL.get('isVk') === '1') {
+            vkBridge
+                .send('VKWebAppInit')
+                .then(data => {
+                    if (data.result) {
+                        console.log(data.result);
+                        // Приложение инициализировано
                     } else {
-                        this.state.items.name = data.first_name;
+                        console.log('error');
+                        // Ошибка
                     }
-                    this.handleNextStep(this.state.step + 1);
-                    return true;
-                }
-                return false;
-            })
-            .catch(error => {
-                console.log(error);
-                return false;
-            });
+                })
+                .catch(error => {
+                    // Ошибка
+                    console.log(error);
+                });
 
-        this.addMessage(scenario[this.state.step], false);
+            vkBridge
+                .send('VKWebAppGetUserInfo')
+                .then(data => {
+                    if (data.first_name) {
+                        if (data.last_name) {
+                            this.state.items.name = data.first_name + ' ' + data.last_name;
+                        } else {
+                            this.state.items.name = data.first_name;
+                        }
+                        this.handleNextStep(this.state.step + 1);
+                        return true;
+                    }
+                    return false;
+                })
+                .catch(error => {
+                    console.log(error);
+                    return false;
+                });
+        } else {
+            this.addMessage(scenario[this.state.step], false);
+        }
     }
 
     getFiles = (files: any) => {
