@@ -152,6 +152,8 @@ class AppContainer extends PureComponent<IProps, IState> {
             const start = await checkVKData;
             console.log(init);
             console.log(start);
+            console.log(vkBridge
+                .send('VKWebAppInit'))
             console.log(checkVKData);
             if (start !== true) {
                 this.addMessage(scenario[this.state.step], false);
