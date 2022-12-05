@@ -10,7 +10,9 @@ export interface ICreateOrderFromBotData {
     note: string;
     base64_files?: string | string[];
     files?: any,
-    vkid: any
+    vkid: any,
+    city: any,
+    clientForm: any
 }
 
 export interface IEditOrderFromBotData {

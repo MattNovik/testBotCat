@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import vkBridge from '@vkontakte/vk-bridge';
 
-/* import ym from 'react-yandex-metrika'; */
+import ym from 'react-yandex-metrika';
 
 import { Button } from 'components/UI';
 import { texts } from 'constants/texts';
@@ -65,6 +65,8 @@ interface IState {
     vkid: string | number;
     vkEmail: boolean | string;
     vkPhone: boolean | string;
+    city: boolean | string;
+    clientFrom: string | null;
 }
 
 interface IProps extends IStateProps, IDispatchProps, RouteConfig {}
@@ -101,7 +103,9 @@ class AppContainer extends PureComponent<IProps, IState> {
             isVK: false,
             vkid: '',
             vkEmail: false,
-            vkPhone: false
+            vkPhone: false,
+            city: false,
+            clientFrom: ''
         };
     }
 
@@ -122,6 +126,7 @@ class AppContainer extends PureComponent<IProps, IState> {
         const location = document.location.search;
         const createURL = new URLSearchParams(location);
 
+        this.setState({ clientFrom: createURL.get('from') });
         console.log(createURL.get('isVk'));
         if (createURL.get('isVk') === '1') {
             this.setState({ isVK: true });
@@ -151,6 +156,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                             this.setState({ vkid: data.id });
                         }
                         this.handleNextStep(this.state.step + 1);
+                        this.setState({ city: data.city.title });
                     } else {
                         this.addMessage(scenario[this.state.step], false);
                     }
@@ -423,7 +429,9 @@ class AppContainer extends PureComponent<IProps, IState> {
             theme: this.state.items.theme,
             course: this.state.items.subject,
             note: this.state.items.note,
-            vkid: this.state.vkid
+            vkid: this.state.vkid,
+            city: this.state.city,
+            clientForm: this.state.clientFrom
         };
 
         const files: any = this.state.items.filesData || null;
@@ -441,8 +449,8 @@ class AppContainer extends PureComponent<IProps, IState> {
                                 authtoken: response.data.authtoken || '',
                                 estimate_info: response.data.estimate_info || {}
                             }
-                        }
-                        /*                         () => ym('reachGoal', 'ORDER_BOTCAT') */
+                        },
+                        () => ym('reachGoal', 'ORDER_BOTCAT')
                     );
                 }
             })
