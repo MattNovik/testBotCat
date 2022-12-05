@@ -148,9 +148,15 @@ class AppContainer extends PureComponent<IProps, IState> {
             });
 
         const checkReal = async () => {
-            const start = await checkVKData;
-            if (start !== true) {
-                this.addMessage(scenario[this.state.step], false);
+            try {
+                const start = await checkVKData;
+                console.log(start);
+
+                if (start !== true) {
+                    this.addMessage(scenario[this.state.step], false);
+                }
+            } catch (error) {
+                console.log(error);
             }
         };
 
