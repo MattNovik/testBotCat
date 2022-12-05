@@ -112,6 +112,8 @@ class AppContainer extends PureComponent<IProps, IState> {
 
         // VK integ
 
+        console.log(new URLSearchParams(document.location.search).get('isVk'));
+
         const check = vkBridge
             .send('VKWebAppInit')
             .then(data => {
