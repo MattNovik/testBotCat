@@ -415,8 +415,12 @@ class AppContainer extends PureComponent<IProps, IState> {
             return;
         }
 
-        if (step === 7 && this.state.vkPhone && !!this.state.items.user_id) {
+        if (step === 7 && this.state.vkPhone) {
             console.log('phone');
+            return;
+        }
+        if (step === 8 && this.state.vkPhone && this.state.vkEmail) {
+            console.log('ready');
             return;
         }
 
