@@ -12,7 +12,7 @@ export interface ICreateOrderFromBotData {
     files?: any,
     vkid: any,
     city: any,
-    clientForm: any
+    clientFrom: any
 }
 
 export interface IEditOrderFromBotData {

@@ -125,8 +125,9 @@ class AppContainer extends PureComponent<IProps, IState> {
         // VK integ
         const location = document.location.search;
         const createURL = new URLSearchParams(location);
+        const clientFrom = createURL.get('from');
 
-        this.setState({ clientFrom: createURL.get('from') });
+        this.setState({ clientFrom: clientFrom });
         console.log(createURL.get('isVk'));
         if (createURL.get('isVk') === '1') {
             this.setState({ isVK: true });
@@ -431,7 +432,7 @@ class AppContainer extends PureComponent<IProps, IState> {
             note: this.state.items.note,
             vkid: this.state.vkid,
             city: this.state.city,
-            clientForm: this.state.clientFrom
+            clientFrom: this.state.clientFrom
         };
 
         const files: any = this.state.items.filesData || null;
