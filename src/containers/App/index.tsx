@@ -442,6 +442,7 @@ class AppContainer extends PureComponent<IProps, IState> {
             const oldMessage = message.message;
 
             message.message = `${texts.info.step1} ${this.state.items.name}! ${oldMessage}`;
+            console.log('add here');
         }
 
         if (message.message !== 'Next') {
