@@ -162,6 +162,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                     console.log(error);
                     return false;
                 });
+
             vkBridge
                 .send('VKWebAppGetPersonalCard', {
                     type: ['phone', 'email']
