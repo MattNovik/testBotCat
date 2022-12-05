@@ -17,6 +17,10 @@
     -moz-appearance: none;
     appearance: none;
 
+    @media (max-width: 767px) {
+        font-size: 16px;
+    }
+
     &:focus,
     &:active {
         outline: none;
