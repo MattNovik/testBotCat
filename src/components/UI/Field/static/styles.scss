@@ -3,7 +3,7 @@
     padding: 13px 21px;
     box-sizing: border-box;
 
-    font-size: 14px;
+    font-size: 16px; // 14px
     line-height: 1;
 
     color: #000;
@@ -14,8 +14,8 @@
     box-shadow: none;
 
     -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 
     &:focus,
     &:active {
