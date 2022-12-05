@@ -63,6 +63,8 @@ interface IState {
     isOpen: boolean;
     isVK: boolean;
     vkid: string | number;
+    vkEmail: boolean | string;
+    vkPhone: boolean | string;
 }
 
 interface IProps extends IStateProps, IDispatchProps, RouteConfig {}
@@ -97,7 +99,9 @@ class AppContainer extends PureComponent<IProps, IState> {
             errors: {},
             isOpen: false,
             isVK: false,
-            vkid: ''
+            vkid: '',
+            vkEmail: false,
+            vkPhone: false
         };
     }
 
@@ -168,7 +172,8 @@ class AppContainer extends PureComponent<IProps, IState> {
                 .then(data => {
                     console.log(data);
                     if (data.phone_number) {
-                        this.state.items.name = data.phone_number;
+                        this.state.items.phone = data.phone_number;
+                        this.setState({ vkPhone: true });
                         // Данные получены
                     }
                 })
@@ -179,9 +184,9 @@ class AppContainer extends PureComponent<IProps, IState> {
             vkBridge
                 .send('VKWebAppGetEmail')
                 .then(data => {
-                    console.log(data);
                     if (data.email) {
-                        this.state.items.name = data.email;
+                        this.state.items.email = data.email;
+                        this.setState({ vkEmail: true });
                         // Данные получены
                     }
                 })
@@ -391,6 +396,18 @@ class AppContainer extends PureComponent<IProps, IState> {
     };
 
     handleNextStep = (step: number) => {
+        if (step === 7 && this.state.vkEmail) {
+            this.createOrderFromBot();
+            this.handleNextStep(this.state.step + 1);
+            return;
+        }
+
+        if (step === 8 && this.state.vkPhone && !!this.state.items.user_id) {
+            this.editOrderFromBot();
+            this.handleNextStep(this.state.step + 1);
+            return;
+        }
+
         if (step <= this.scenarioLength) {
             this.setState(
                 {
