@@ -112,7 +112,7 @@ class AppContainer extends PureComponent<IProps, IState> {
 
         // VK integ
 
-        vkBridge
+        const check = vkBridge
             .send('VKWebAppInit')
             .then(data => {
                 if (data.result) {
@@ -127,6 +127,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                 // Ошибка
                 console.log(error);
             });
+        console.log(check);
 
         vkBridge
             .send('VKWebAppGetUserInfo')
