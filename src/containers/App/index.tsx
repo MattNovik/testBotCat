@@ -61,6 +61,7 @@ interface IState {
     dialogs: any;
     errors: any;
     isOpen: boolean;
+    isVK: boolean;
 }
 
 interface IProps extends IStateProps, IDispatchProps, RouteConfig {}
@@ -93,7 +94,8 @@ class AppContainer extends PureComponent<IProps, IState> {
             prints: false,
             dialogs: [],
             errors: {},
-            isOpen: false
+            isOpen: false,
+            isVK: false
         };
     }
 
@@ -116,6 +118,7 @@ class AppContainer extends PureComponent<IProps, IState> {
 
         console.log(createURL.get('isVk'));
         if (createURL.get('isVk') === '1') {
+            this.setState({ isVK: true });
             vkBridge
                 .send('VKWebAppInit')
                 .then(data => {
@@ -141,7 +144,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                         } else {
                             this.state.items.name = data.first_name;
                         }
-                        this.handleNextStep(this.state.step + 2);
+                        this.handleNextStep(this.state.step + 1);
                         return true;
                     }
                     return false;
@@ -434,14 +437,26 @@ class AppContainer extends PureComponent<IProps, IState> {
     addMessage = (message: IScenarioMessage, next: boolean) => {
         const newDialogs: IScenarioMessage[] | any = [...this.state.dialogs];
 
-        if (
-            this.state.step === 1 &&
-            this.state.items.name !== 'anonymous' &&
-            this.state.dialogs.length <= 2
-        ) {
-            const oldMessage = message.message;
+        if (this.state.isVK === false) {
+            if (
+                this.state.step === 1 &&
+                this.state.items.name !== 'anonymous' &&
+                this.state.dialogs.length <= 2
+            ) {
+                const oldMessage = message.message;
 
-            message.message = `${texts.info.step1} ${this.state.items.name}! ${oldMessage}`;
+                message.message = `${texts.info.step1} ${this.state.items.name}! ${oldMessage}`;
+            }
+        } else {
+            if (
+                this.state.step === 1 &&
+                this.state.items.name !== 'anonymous' &&
+                this.state.dialogs.length <= 1
+            ) {
+                const oldMessage = message.message;
+
+                message.message = `${texts.info.step1} ${this.state.items.name}! ${oldMessage}`;
+            }
         }
 
         if (message.message !== 'Next') {
