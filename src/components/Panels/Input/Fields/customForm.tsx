@@ -16,7 +16,6 @@ const CustomForm1: FC<IPropsCF> = memo(({ name, placeholder, required, onSetValu
     const [error] = useState('');
 
     const handleSetName = (val: string) => {
-        if (!required && !val) val = 'Нет';
         if (!!val && onSetValue) {
             onSetValue(name, val);
             setValue('');
