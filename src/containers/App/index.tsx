@@ -112,21 +112,24 @@ class AppContainer extends PureComponent<IProps, IState> {
 
         // VK integ
 
-        vkBridge
-            .send('VKWebAppInit')
-            .then(data => {
-                if (data.result) {
-                    console.log(data.result);
-                    // Приложение инициализировано
-                } else {
-                    console.log('error');
+        const check = async () =>
+            vkBridge
+                .send('VKWebAppInit')
+                .then(data => {
+                    if (data.result) {
+                        console.log(data.result);
+                        // Приложение инициализировано
+                    } else {
+                        console.log('error');
+                        // Ошибка
+                    }
+                })
+                .catch(error => {
                     // Ошибка
-                }
-            })
-            .catch(error => {
-                // Ошибка
-                console.log(error);
-            });
+                    console.log(error);
+                });
+
+        console.log(check);
 
         const checkVKData = vkBridge
             .send('VKWebAppGetUserInfo')
