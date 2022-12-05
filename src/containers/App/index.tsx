@@ -164,12 +164,24 @@ class AppContainer extends PureComponent<IProps, IState> {
                 });
 
             vkBridge
-                .send('VKWebAppGetPersonalCard', {
-                    type: ['phone', 'email']
-                })
+                .send('VKWebAppGetPhoneNumber')
                 .then(data => {
                     console.log(data);
-                    if (data.phone) {
+                    if (data.phone_number) {
+                        this.state.items.name = data.phone_number;
+                        // Данные получены
+                    }
+                })
+                .catch(error => {
+                    // Ошибка
+                    console.log(error);
+                });
+            vkBridge
+                .send('VKWebAppGetEmail')
+                .then(data => {
+                    console.log(data);
+                    if (data.email) {
+                        this.state.items.name = data.email;
                         // Данные получены
                     }
                 })
