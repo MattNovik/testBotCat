@@ -126,6 +126,7 @@ class AppContainer extends PureComponent<IProps, IState> {
         const location = document.location.search;
         const createURL = new URLSearchParams(location);
         const clientFrom = createURL.get('from');
+        console.log(clientFrom)
 
         this.setState({ clientFrom: clientFrom });
         console.log(createURL.get('isVk'));
