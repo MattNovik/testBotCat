@@ -21,9 +21,11 @@ const InputField: FC<IPropsCF> = memo(
         const [isOpen, setIsOpen] = useState(false);
 
         const handleSetName = (val: string) => {
-            if (!required && !val) val = 'Нет';
+            if (!required && !val) {
+                val = 'Нет';
+                setValue(val);
+            }
             if (!!val && onSetValue) {
-                console.log('checl');
                 if (name === 'email' && !validateEmail(val)) {
                     setError('Введите правильно email!');
                     setIsOpen(true);
