@@ -116,8 +116,10 @@ class AppContainer extends PureComponent<IProps, IState> {
             .send('VKWebAppInit')
             .then(data => {
                 if (data.result) {
+                    console.log(data.result);
                     // Приложение инициализировано
                 } else {
+                    console.log('error');
                     // Ошибка
                 }
             })
