@@ -451,7 +451,7 @@ class AppContainer extends PureComponent<IProps, IState> {
             if (
                 this.state.step === 1 &&
                 this.state.items.name !== 'anonymous' &&
-                this.state.dialogs.length <= 1
+                this.state.dialogs.length < 1
             ) {
                 const oldMessage = message.message;
 
