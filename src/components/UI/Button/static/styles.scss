@@ -7,24 +7,24 @@
     align-items: center;
     border-radius: 16px;
     border: 1px solid transparent;
-    font-size: 13px;
+    font-size: 16px;
     line-height: 16px;
     text-transform: uppercase;
     font-weight: 700;
     padding-left: 7px;
     padding-right: 7px;
-    background-color: #B3DA26;
-    color: #353DF0;
+    background-color: #b3da26;
+    color: #353df0;
 
     &--primary {
-        background-color: #353DF0;
+        background-color: #353df0;
         color: #fff;
     }
 
     &--light {
         background-color: #fff;
-        color: #353DF0;
-        border-color: #353DF0;
+        color: #353df0;
+        border-color: #353df0;
     }
 
     &:focus,
@@ -41,6 +41,6 @@
     }
 
     &--disabled {
-        background-color: #C4C4C4;
+        background-color: #c4c4c4;
     }
 }
