@@ -9,7 +9,8 @@ export interface ICreateOrderFromBotData {
     course: string;
     note: string;
     base64_files?: string | string[];
-    files?: any
+    files?: any,
+    vkid: any
 }
 
 export interface IEditOrderFromBotData {

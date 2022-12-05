@@ -14,7 +14,7 @@
     "start:dev": "cross-env API_VER=development npm start",
     "start:prod": "cross-env API_VER=production npm start",
     "build": "npm run build:dev ",
-    "build:dev": "cross-env ASSET_PATH=dist/ NODE_ENV=development webpack --config ./webpack.config.js -p",
+    "build:dev": "cross-env ASSET_PATH=iframeVK/ NODE_ENV=development webpack --config ./webpack.config.js -p",
     "build:prod": "cross-env ASSET_PATH=https://stud-servis.ru/wp-content/themes/stuservis/botcat/ NODE_ENV=production webpack --config ./webpack.config.js -p"
   },
   "dependencies": {

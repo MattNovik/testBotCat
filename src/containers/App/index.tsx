@@ -62,6 +62,7 @@ interface IState {
     errors: any;
     isOpen: boolean;
     isVK: boolean;
+    vkid: string | number;
 }
 
 interface IProps extends IStateProps, IDispatchProps, RouteConfig {}
@@ -95,7 +96,8 @@ class AppContainer extends PureComponent<IProps, IState> {
             dialogs: [],
             errors: {},
             isOpen: false,
-            isVK: false
+            isVK: false,
+            vkid: ''
         };
     }
 
@@ -144,9 +146,14 @@ class AppContainer extends PureComponent<IProps, IState> {
                         } else {
                             this.state.items.name = data.first_name;
                         }
+
+                        if (data.id) {
+                            this.setState({ vkid: data.id });
+                        }
                         this.handleNextStep(this.state.step + 1);
                         return true;
                     }
+
                     this.addMessage(scenario[this.state.step], false);
                     return false;
                 })
@@ -390,7 +397,8 @@ class AppContainer extends PureComponent<IProps, IState> {
             type_of_work: this.state.items.type,
             theme: this.state.items.theme,
             course: this.state.items.subject,
-            note: this.state.items.note
+            note: this.state.items.note,
+            vkid: this.state.vkid
         };
 
         const files: any = this.state.items.filesData || null;
