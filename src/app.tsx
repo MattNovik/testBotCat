@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from 'redux/store';
 
-import { YMInitializer } from 'react-yandex-metrika';
+/* import { YMInitializer } from 'react-yandex-metrika'; */
 
 import AppContainer from 'containers/App';
 
@@ -17,7 +17,7 @@ const App: FC = () => {
                 <Switch>
                     <Route path='/' render={(props: any) => <AppContainer {...props} />} />
                 </Switch>
-                <YMInitializer accounts={[52970623]} />
+                {/* <YMInitializer accounts={[52970623]} /> */}
             </BrowserRouter>
         </Provider>
     );

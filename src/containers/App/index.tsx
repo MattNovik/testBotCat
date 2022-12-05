@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import vkBridge from '@vkontakte/vk-bridge';
 
-import ym from 'react-yandex-metrika';
+/* import ym from 'react-yandex-metrika'; */
 
 import { Button } from 'components/UI';
 import { texts } from 'constants/texts';
@@ -396,34 +396,6 @@ class AppContainer extends PureComponent<IProps, IState> {
     };
 
     handleNextStep = (step: number) => {
-        console.log(this.state.vkEmail);
-        console.log(this.state.vkPhone);
-        if (step === 6 && this.state.vkEmail) {
-            //this.createOrderFromBot()
-            console.log('email');
-            if (step <= this.scenarioLength) {
-                this.setState(
-                    {
-                        step: step,
-                        prints: false
-                    },
-                    () => {
-                        this.addMessage(scenario[8], true);
-                    }
-                );
-            }
-            return;
-        }
-
-        if (step === 7 && this.state.vkPhone) {
-            console.log('phone');
-            return;
-        }
-        if (step === 8 && this.state.vkPhone && this.state.vkEmail) {
-            console.log('ready');
-            return;
-        }
-
         if (step <= this.scenarioLength) {
             this.setState(
                 {
@@ -436,8 +408,8 @@ class AppContainer extends PureComponent<IProps, IState> {
             );
         }
 
-        //if (step === 7) this.createOrderFromBot();
-        //if (step === 8 && !!this.state.items.user_id) this.editOrderFromBot();
+        if (step === 7) this.createOrderFromBot();
+        if (step === 8 && !!this.state.items.user_id) this.editOrderFromBot();
     };
 
     convertFilesToOrder = () => {
@@ -476,8 +448,8 @@ class AppContainer extends PureComponent<IProps, IState> {
                                 authtoken: response.data.authtoken || '',
                                 estimate_info: response.data.estimate_info || {}
                             }
-                        },
-                        () => ym('reachGoal', 'ORDER_BOTCAT')
+                        }
+                        /*                         () => ym('reachGoal', 'ORDER_BOTCAT') */
                     );
                 }
             })
