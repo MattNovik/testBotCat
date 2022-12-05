@@ -153,7 +153,7 @@ class AppContainer extends PureComponent<IProps, IState> {
             console.log(init);
             console.log(start);
             console.log(checkVKData);
-            if (start === false) {
+            if (start !== true) {
                 this.addMessage(scenario[this.state.step], false);
             }
         };
