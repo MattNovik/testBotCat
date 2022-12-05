@@ -40,7 +40,7 @@ const InputField: FC<IPropsCF> = memo(
 
         return (
             <Fragment>
-                <form className='botcat-customform-name'>
+                <form className='botcat-customform-name' onSubmit={e => e.preventDefault()}>
                     <div className='botcat-customform-name__col botcat-customform-name__col--auto'>
                         <TextField
                             name={name}
@@ -59,7 +59,7 @@ const InputField: FC<IPropsCF> = memo(
                             onlyIcons
                             onClick={() => handleSetName(value)}
                             disabled={disabled || (required ? !!error || !value : false)}
-                            type='button'
+                            type='submit'
                         >
                             <Icons.Send size={30} fill='#FFF' />
                         </Button>
