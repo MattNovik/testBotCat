@@ -408,7 +408,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                         prints: false
                     },
                     () => {
-                        this.addMessage(scenario[step], true);
+                        this.addMessage(scenario[7], true);
                     }
                 );
             }
