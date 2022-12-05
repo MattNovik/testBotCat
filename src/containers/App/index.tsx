@@ -396,6 +396,8 @@ class AppContainer extends PureComponent<IProps, IState> {
     };
 
     handleNextStep = (step: number) => {
+        console.log(this.state.vkEmail);
+        console.log(this.state.vkPhone)
         if (step === 6 && this.state.vkEmail) {
             console.log('email');
         }
