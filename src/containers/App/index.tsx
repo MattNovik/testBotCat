@@ -146,11 +146,8 @@ class AppContainer extends PureComponent<IProps, IState> {
                 .then(data => {
                     if (data.first_name) {
                         if (data.last_name) {
-                            this.state.items.name = data.first_name + ' ' + data.last_name;
-                        } else {
                             this.state.items.name = data.first_name;
                         }
-
                         if (data.id) {
                             this.setState({ vkid: data.id });
                         }
@@ -166,7 +163,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                     console.log(error);
                     return false;
                 });
-
+            /* 
             vkBridge
                 .send('VKWebAppGetPhoneNumber')
                 .then(data => {
@@ -193,7 +190,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                 .catch(error => {
                     // Ошибка
                     console.log(error);
-                });
+                }); */
         } else {
             this.addMessage(scenario[this.state.step], false);
         }
