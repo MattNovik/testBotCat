@@ -141,7 +141,7 @@ class AppContainer extends PureComponent<IProps, IState> {
                         } else {
                             this.state.items.name = data.first_name;
                         }
-                        this.handleNextStep(this.state.step + 1);
+                        this.handleNextStep(this.state.step + 2);
                         return true;
                     }
                     return false;
@@ -433,7 +433,6 @@ class AppContainer extends PureComponent<IProps, IState> {
 
     addMessage = (message: IScenarioMessage, next: boolean) => {
         const newDialogs: IScenarioMessage[] | any = [...this.state.dialogs];
-        console.log(this.state.step);
 
         if (
             this.state.step === 1 &&
