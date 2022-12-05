@@ -399,7 +399,19 @@ class AppContainer extends PureComponent<IProps, IState> {
         console.log(this.state.vkEmail);
         console.log(this.state.vkPhone);
         if (step === 6 && this.state.vkEmail) {
+            //this.createOrderFromBot()
             console.log('email');
+            if (step <= this.scenarioLength) {
+                this.setState(
+                    {
+                        step: step,
+                        prints: false
+                    },
+                    () => {
+                        this.addMessage(scenario[step], true);
+                    }
+                );
+            }
             return;
         }
 
