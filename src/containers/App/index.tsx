@@ -396,18 +396,6 @@ class AppContainer extends PureComponent<IProps, IState> {
     };
 
     handleNextStep = (step: number) => {
-        if (step === 7 && this.state.vkEmail) {
-            this.createOrderFromBot();
-            this.handleNextStep(this.state.step + 1);
-            return;
-        }
-
-        if (step === 8 && this.state.vkPhone && !!this.state.items.user_id) {
-            this.editOrderFromBot();
-            this.handleNextStep(this.state.step + 1);
-            return;
-        }
-
         if (step <= this.scenarioLength) {
             this.setState(
                 {
