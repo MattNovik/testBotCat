@@ -6,7 +6,7 @@ import vkBridge from '@vkontakte/vk-bridge';
 
 import ym from 'react-yandex-metrika';
 
-import { Button } from 'components/UI';
+/* import { Button } from 'components/UI'; */
 import { texts } from 'constants/texts';
 import { API_AUTH } from 'constants/api';
 
@@ -126,7 +126,6 @@ class AppContainer extends PureComponent<IProps, IState> {
         const location = document.location.search;
         const createURL = new URLSearchParams(location);
         const clientFrom = createURL.get('from');
-        console.log(clientFrom)
 
         this.setState({ clientFrom: clientFrom });
         console.log(createURL.get('isVk'));
@@ -606,12 +605,22 @@ class AppContainer extends PureComponent<IProps, IState> {
                     <div className='botcat-input-panel'>
                         <div className='botcat-customform-name'>
                             <div className='botcat-customform-name__col'>
-                                <Button onClick={this.handleOpenOrder}>открыть заказ</Button>
+                                <a
+                                    target='_blank'
+                                    className='botcat-button'
+                                    href={`${API_AUTH}auth/token=${this.state.items.authtoken}/email=${this.state.items.email}/hash=${this.state.items.hash}/order_id_info=${this.state.items.order_id}`}
+                                >
+                                    открыть заказ
+                                </a>
                             </div>
                             <div className='botcat-customform-name__col'>
-                                <Button kind='light' onClick={this.handleOpenChat}>
+                                <a
+                                    target='_blank'
+                                    className='botcat-button botcat-button--light'
+                                    href={`${API_AUTH}auth/token=${this.state.items.authtoken}/email=${this.state.items.email}/hash=${this.state.items.hash}/order_id_chat=${this.state.items.order_id}`}
+                                >
                                     задать вопрос
-                                </Button>
+                                </a>
                             </div>
                         </div>
                     </div>

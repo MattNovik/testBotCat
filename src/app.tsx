@@ -17,7 +17,7 @@ const App: FC = () => {
                 <Switch>
                     <Route path='/' render={(props: any) => <AppContainer {...props} />} />
                 </Switch>
-                <YMInitializer accounts={[52970623]} />
+                <YMInitializer accounts={[52970623]} options={{ webvisor: true }} />
             </BrowserRouter>
         </Provider>
     );
